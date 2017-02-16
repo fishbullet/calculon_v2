@@ -2,14 +2,23 @@ import React from 'react';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
 
-class App extends React.Component {
+class Random extends React.Component {
   constructor(props) {
     super()
     this.random = ()=> {
       return _.shuffle(['a','b','c'])
     }
+  }
+  render() {
+    return <span>{this.random()}</span>
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super()
     this.state = {
-      v: 1
+      v: 1,
     }
     this.onClick = ()=> {
       this.setState({ v: this.state.v + 1 })
@@ -17,7 +26,7 @@ class App extends React.Component {
   }
   render() {
     return <div style={{ textAlign: 'center', color: 'gray' }}>
-      <h1> ({this.random()}) - {this.props.name}</h1> 
+      <h1> (<Random />) - {this.props.name}</h1> 
       <button onClick={this.onClick} >Counter: {this.state.v}</button>
     </div>
   }
