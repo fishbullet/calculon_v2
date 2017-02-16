@@ -1,3 +1,4 @@
+/calculator/node_modules/*
 /vendor/bundle
 /log/*
 .bundle
