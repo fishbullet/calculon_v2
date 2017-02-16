@@ -2,35 +2,38 @@ import React from 'react';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
 
-class Random extends React.Component {
-  constructor(props) {
-    super()
-    this.random = ()=> {
-      return _.shuffle(['a','b','c'])
-    }
-  }
-  render() {
-    return <span>{this.random()}</span>
-  }
-}
-
 class App extends React.Component {
   constructor(props) {
     super()
-    this.state = {
-      v: 1,
+    this.state = { 
+      count: props.state.count
     }
     this.onClick = ()=> {
-      this.setState({ v: this.state.v + 1 })
+      new Promise((res, rej)=> {
+        fetch(`/${this.state.count}`, {
+          method: 'POST'
+        }).then(r => {
+          return res(r)
+        }).catch(e => {
+          return rej(e)
+        })
+      }).then((r)=> {
+        return r.json()
+      }).then((json)=> {
+        this.setState({ count: json.count })
+      })
     }
+  }
+  shouldComponentUpdate() {
+    return true
   }
   render() {
     return <div style={{ textAlign: 'center', color: 'gray' }}>
-      <h1> (<Random />) - {this.props.name}</h1> 
-      <button onClick={this.onClick} >Counter: {this.state.v}</button>
+      <h1> ({this.state.count}) </h1> 
+      <button onClick={this.onClick} >Add</button>
     </div>
   }
 }
 
-ReactDOM.render(<App name='random' />, document.getElementById('root'))
+ReactDOM.render(<App state={window.state} />, document.getElementById('root'))
 
