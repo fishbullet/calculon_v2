@@ -1,5 +1,5 @@
 #!/bin/bash
 bundle install
 RAILS_ENV=production bundle exec rackup -p 3000 &
-cd calculator && webpack-dev-server -w --progress --inline --hot --colors --config webpack.config.js
+cd calculator && ./node_modules/.bin/webpack-dev-server --config webpack.config.js
 
